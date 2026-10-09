@@ -16,5 +16,5 @@ Switch between the two modes and compare the handshakes.
 - gRPC negotiates HTTP/2 through ALPN during the handshake. A proxy or load balancer that doesn't support ALPN will break the connection.
 - TLS and tokens work together, and you should use both. TLS protects the channel; a token (say a JWT in `authorization`) says which user asked.
 - Running mTLS yourself means issuing and rotating hundreds of certificates before they expire. Many teams let a service mesh such as Istio or Linkerd do mTLS automatically while the app talks plaintext inside the pod.
-- In .NET, most TLS settings live in Kestrel rather than in gRPC code.
+- In .NET, most TLS settings live in Kestrel rather than in gRPC code. On Windows, a certificate loaded from PEM files has to be round-tripped through PKCS#12 first (the `LoadPem` helper in the sample), or the handshake fails partway.
 - Never turn off certificate verification (`InsecureSkipVerify` or similar) in production. The traffic is still encrypted, but anyone can pretend to be the server.

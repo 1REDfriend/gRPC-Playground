@@ -1,5 +1,15 @@
 # buf replaces long protoc commands with a config file.
 # Run: buf generate   (and: buf lint, buf breaking --against '.git#branch=main')
+#
+# It needs a buf.yaml next to it that marks proto/ as the module root.
+# Without it, output lands in gen/go/proto/shop/v1 and Python imports break.
+#
+#   # buf.yaml
+#   version: v2
+#   modules:
+#     - path: proto
+#
+# buf.gen.yaml
 version: v2
 plugins:
   - remote: buf.build/protocolbuffers/go

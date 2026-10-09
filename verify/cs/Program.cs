@@ -395,14 +395,7 @@ await Check("health + reflection", async () =>
 });
 
 // ------------------------------------------------------------------ TLS / mTLS
-await Check("tls: Kestrel mTLS + client certificate (as written)", async () =>
-{
-    await RunMtls(usePfxWorkaround: false);
-});
-await Check("tls: Kestrel mTLS + client certificate (PKCS#12 re-import)", async () =>
-{
-    await RunMtls(usePfxWorkaround: true);
-});
+await Check("tls: Kestrel mTLS + client certificate (LoadPem from the site)", RunMtls);
 
 static bool TrustedByCa(X509Certificate cert, X509Certificate2 ca)
 {
@@ -416,13 +409,16 @@ static bool TrustedByCa(X509Certificate cert, X509Certificate2 ca)
     return ok;
 }
 
-async Task RunMtls(bool usePfxWorkaround)
+// Copied from the TLS snippet.
+static X509Certificate2 LoadPem(string certPath, string keyPath)
 {
-    X509Certificate2 Load(string crt, string key)
-    {
-        var c = X509Certificate2.CreateFromPemFile(Path.Combine(certs, crt), Path.Combine(certs, key));
-        return usePfxWorkaround ? X509CertificateLoader.LoadPkcs12(c.Export(X509ContentType.Pkcs12), null) : c;
-    }
+    using var pem = X509Certificate2.CreateFromPemFile(certPath, keyPath);
+    return X509CertificateLoader.LoadPkcs12(pem.Export(X509ContentType.Pkcs12), password: null);
+}
+
+async Task RunMtls()
+{
+    X509Certificate2 Load(string crt, string key) => LoadPem(Path.Combine(certs, crt), Path.Combine(certs, key));
     var ca = X509CertificateLoader.LoadCertificateFromFile(Path.Combine(certs, "ca.crt"));
     TlsService.Caller = null;
 
@@ -632,7 +628,8 @@ public class SlowService : OrderService.OrderServiceBase
 
     public override async Task<Order> GetOrder(GetOrderRequest request, ServerCallContext context)
     {
-        Console.WriteLine($"time left: {context.Deadline - DateTime.UtcNow}");
+        if (context.Deadline != DateTime.MaxValue) // MaxValue means "no deadline set"
+            Console.WriteLine($"time left: {context.Deadline - DateTime.UtcNow}");
         return (await _repo.FindAsync(request.OrderId, context.CancellationToken))!;
     }
 }

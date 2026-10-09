@@ -213,7 +213,8 @@ server = grpc.server(
     {
       id: 'csharp',
       lang: 'csharp',
-      code: `using Grpc.Core;
+      code: `using System.Diagnostics;
+using Grpc.Core;
 using Grpc.Core.Interceptors;
 
 public class LoggingInterceptor(ILogger<LoggingInterceptor> logger) : Interceptor

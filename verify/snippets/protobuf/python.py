@@ -1,4 +1,5 @@
-import shop_pb2
+# Generated into gen/shop/v1/, so put gen/ on PYTHONPATH
+from shop.v1 import shop_pb2
 
 item = shop_pb2.Item(sku="SKU-1007", quantity=150)
 

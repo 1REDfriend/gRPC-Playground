@@ -94,7 +94,8 @@ console.log(decoded); // { sku: 'SKU-1007', quantity: 150 }`,
     {
       id: 'python',
       lang: 'python',
-      code: `import shop_pb2
+      code: `# Generated into gen/shop/v1/, so put gen/ on PYTHONPATH
+from shop.v1 import shop_pb2
 
 item = shop_pb2.Item(sku="SKU-1007", quantity=150)
 

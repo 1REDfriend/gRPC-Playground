@@ -7,6 +7,8 @@ import (
 	"testing"
 
 	"connectrpc.com/connect"
+	"golang.org/x/net/http2"
+	"golang.org/x/net/http2/h2c"
 
 	shopv1 "example.com/shop/gen/shop/v1"
 	"example.com/shop/gen/shop/v1/shopv1connect"
@@ -38,4 +40,12 @@ func TestGrpcWeb(t *testing.T) {
 	if resp.Header.Get("Access-Control-Allow-Origin") != "https://shop.example.com" {
 		t.Fatal("CORS preflight failed:", resp.Status, resp.Header)
 	}
+}
+
+// Same wiring as main() in the site snippet, minus ListenAndServe.
+func newHandler() http.Handler {
+	mux := http.NewServeMux()
+	path, handler := shopv1connect.NewOrderServiceHandler(&orderServer{})
+	mux.Handle(path, withCORS(handler))
+	return h2c.NewHandler(mux, &http2.Server{})
 }

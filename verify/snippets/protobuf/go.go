@@ -3,7 +3,7 @@ import (
 
 	"google.golang.org/protobuf/proto"
 
-	shopv1 "example.com/shop/gen/shopv1"
+	shopv1 "example.com/shop/gen/shop/v1"
 )
 
 func roundTrip() {

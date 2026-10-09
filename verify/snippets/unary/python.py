@@ -2,8 +2,7 @@
 from concurrent import futures
 
 import grpc
-import shop_pb2
-import shop_pb2_grpc
+from shop.v1 import shop_pb2, shop_pb2_grpc  # generated into gen/; run with PYTHONPATH=gen
 
 
 class OrderService(shop_pb2_grpc.OrderServiceServicer):

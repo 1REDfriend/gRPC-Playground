@@ -1,6 +1,6 @@
 import asyncio
 import grpc
-import shop_pb2, shop_pb2_grpc
+from shop.v1 import shop_pb2, shop_pb2_grpc
 
 
 async def main():

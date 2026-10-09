@@ -180,8 +180,7 @@ client.getOrder({ orderId: 'A-1001' }, (err: grpc.ServiceError | null, order: an
 from concurrent import futures
 
 import grpc
-from shop.v1 import shop_pb2, shop_pb2_grpc
-
+from shop.v1 import shop_pb2, shop_pb2_grpc  # generated into gen/; run with PYTHONPATH=gen
 
 
 class OrderService(shop_pb2_grpc.OrderServiceServicer):

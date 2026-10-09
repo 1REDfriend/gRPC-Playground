@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package shop.v1;
 
-option go_package = "example.com/shop/gen/shopv1;shopv1";
+option go_package = "example.com/shop/gen/shop/v1;shopv1";
 option csharp_namespace = "Shop.V1";
 
 service OrderService {

@@ -10,7 +10,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	shopv1 "example.com/shop/gen/shopv1"
+	shopv1 "example.com/shop/gen/shop/v1"
 )
 
 type orderServer struct {

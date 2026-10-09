@@ -17,6 +17,7 @@ catch (RpcException ex) when (ex.StatusCode == StatusCode.DeadlineExceeded)
 // ---- Server: context.CancellationToken fires on deadline or client cancel
 public override async Task<Order> GetOrder(GetOrderRequest request, ServerCallContext context)
 {
-    Console.WriteLine($"time left: {context.Deadline - DateTime.UtcNow}");
+    if (context.Deadline != DateTime.MaxValue) // MaxValue means "no deadline set"
+        Console.WriteLine($"time left: {context.Deadline - DateTime.UtcNow}");
     return await _repo.FindAsync(request.OrderId, context.CancellationToken);
 }

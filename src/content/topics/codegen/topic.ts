@@ -47,7 +47,11 @@ python -m grpc_tools.protoc -I proto \\
   proto/shop/v1/shop.proto
 
 # -> gen/shop/v1/shop_pb2.py       (messages)
-# -> gen/shop/v1/shop_pb2_grpc.py  (OrderServiceServicer, OrderServiceStub)`,
+# -> gen/shop/v1/shop_pb2_grpc.py  (OrderServiceServicer, OrderServiceStub)
+
+# The files form the package shop.v1, so import them like this
+# (with gen/ on the path, e.g. PYTHONPATH=gen python server.py):
+#   from shop.v1 import shop_pb2, shop_pb2_grpc`,
     },
     {
       id: 'csharp',
@@ -73,6 +77,16 @@ python -m grpc_tools.protoc -I proto \\
       label: 'buf.gen.yaml',
       code: `# buf replaces long protoc commands with a config file.
 # Run: buf generate   (and: buf lint, buf breaking --against '.git#branch=main')
+#
+# It needs a buf.yaml next to it that marks proto/ as the module root.
+# Without it, output lands in gen/go/proto/shop/v1 and Python imports break.
+#
+#   # buf.yaml
+#   version: v2
+#   modules:
+#     - path: proto
+#
+# buf.gen.yaml
 version: v2
 plugins:
   - remote: buf.build/protocolbuffers/go
