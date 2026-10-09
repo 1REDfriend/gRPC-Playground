@@ -1,5 +1,7 @@
 # gRPC Playground
 
+Live site: https://1redfriend.github.io/gRPC-Playground/
+
 A bilingual (Thai / English) documentation site for learning gRPC. Every chapter has a short explanation, an animated in-browser simulation of the frames on the wire, and the code that produces that behaviour in Go, Node.js, Python and C#.
 
 Everything runs in the browser. There is no backend; the simulations are scripted scenarios, and the Protobuf byte views are computed live by a small encoder in `src/lib/protobuf.ts`.
