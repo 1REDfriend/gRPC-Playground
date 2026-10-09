@@ -1,0 +1,13 @@
+service OrderService {
+  rpc GetOrder(GetOrderRequest) returns (Order);
+}
+
+message GetOrderRequest { string order_id = 1; }
+
+message Order {
+  string id = 1;
+  string customer_id = 2;
+  repeated Item items = 3;
+  int64 total_cents = 4;
+  OrderStatus status = 5;
+}

@@ -1,0 +1,12 @@
+node_modules
+dist
+*.log
+
+# verify/: build outputs, generated code and throwaway test certificates
+bin/
+obj/
+*.exe
+.venv/
+verify/certs/
+verify/**/gen/
+verify/cmds.txt

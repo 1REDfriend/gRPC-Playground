@@ -1,0 +1,6 @@
+service OrderService {
+  rpc UploadItems(stream Item) returns (UploadSummary);
+}
+
+message Item { string sku = 1; int32 quantity = 2; int64 price_cents = 3; }
+message UploadSummary { int32 item_count = 1; int64 total_cents = 2; }

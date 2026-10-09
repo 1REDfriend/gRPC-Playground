@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23244c5a'/><path d='M8 11h16M8 16h10M8 21h16' stroke='%237fd1c1' stroke-width='3' stroke-linecap='round'/></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <title>gRPC Playground</title>
+    <script>
+      // Apply the saved theme before first paint to avoid a light/dark flash.
+      try {
+        var saved = localStorage.getItem('grpc-playground:theme');
+        if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

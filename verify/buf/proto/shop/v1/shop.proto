@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package shop.v1;
+
+option go_package = "example.com/shop/gen/shop/v1;shopv1";
+option csharp_namespace = "Shop.V1";
+
+service OrderService {
+  // Unary: one request, one response.
+  rpc GetOrder(GetOrderRequest) returns (Order);
+  // Server streaming: one request, many responses.
+  rpc WatchOrder(WatchOrderRequest) returns (stream OrderEvent);
+  // Client streaming: many requests, one response.
+  rpc UploadItems(stream Item) returns (UploadSummary);
+  // Bidirectional streaming: both sides send whenever they like.
+  rpc SupportChat(stream ChatMessage) returns (stream ChatMessage);
+}
+
+message GetOrderRequest { string order_id = 1; }
+
+message Order {
+  string id = 1;
+  string customer_id = 2;
+  repeated Item items = 3;
+  int64 total_cents = 4;
+  OrderStatus status = 5;
+}
+
+message Item {
+  string sku = 1;
+  int32 quantity = 2;
+  int64 price_cents = 3;
+}
+
+enum OrderStatus {
+  ORDER_STATUS_UNSPECIFIED = 0;
+  ORDER_STATUS_PENDING = 1;
+  ORDER_STATUS_PAID = 2;
+  ORDER_STATUS_SHIPPED = 3;
+  ORDER_STATUS_DELIVERED = 4;
+}
+
+message WatchOrderRequest { string order_id = 1; }
+message OrderEvent { OrderStatus status = 1; string note = 2; }
+message UploadSummary { int32 item_count = 1; int64 total_cents = 2; }
+message ChatMessage { string from = 1; string text = 2; }

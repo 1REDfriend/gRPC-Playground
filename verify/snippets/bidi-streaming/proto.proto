@@ -1,0 +1,5 @@
+service OrderService {
+  rpc SupportChat(stream ChatMessage) returns (stream ChatMessage);
+}
+
+message ChatMessage { string from = 1; string text = 2; }

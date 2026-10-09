@@ -1,0 +1,14 @@
+# buf replaces long protoc commands with a config file.
+# Run: buf generate   (and: buf lint, buf breaking --against '.git#branch=main')
+version: v2
+plugins:
+  - remote: buf.build/protocolbuffers/go
+    out: gen/go
+    opt: paths=source_relative
+  - remote: buf.build/grpc/go
+    out: gen/go
+    opt: paths=source_relative
+  - remote: buf.build/protocolbuffers/python
+    out: gen/python
+  - remote: buf.build/grpc/python
+    out: gen/python

@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package shop.v1;
+
+import "google/protobuf/timestamp.proto";
+
+message Item {
+  string sku = 1;                // field number 1: what goes on the wire, never the name
+  int32 quantity = 2;
+  int64 price_cents = 3;         // store money as integers, not floats
+}
+
+message Order {
+  reserved 6;                    // a deleted field: its number must never be reused
+  reserved "coupon";
+
+  string id = 1;
+  string customer_id = 2;
+  repeated Item items = 3;       // a list
+  int64 total_cents = 4;
+  OrderStatus status = 5;
+  map<string, string> labels = 7;
+  google.protobuf.Timestamp created_at = 8;
+
+  oneof payment {                // at most one of these is set
+    string card_token = 9;
+    string bank_ref = 10;
+  }
+
+  optional string note = 11;     // "optional" lets you tell "unset" apart from ""
+}
+
+enum OrderStatus {
+  ORDER_STATUS_UNSPECIFIED = 0;  // proto3 enums must start at 0
+  ORDER_STATUS_PENDING = 1;
+  ORDER_STATUS_PAID = 2;
+}

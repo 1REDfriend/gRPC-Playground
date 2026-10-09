@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <NoWarn>$(NoWarn);CS1998</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Same item the site shows, with GrpcServices="Both" since this project is server and client. -->
+    <Protobuf Include="..\proto\shop\v1\shop.proto" GrpcServices="Both" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.84.0" />
+    <PackageReference Include="Grpc.AspNetCore.HealthChecks" Version="2.84.0" />
+    <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.84.0" />
+    <PackageReference Include="Grpc.AspNetCore.Web" Version="2.84.0" />
+    <PackageReference Include="Grpc.HealthCheck" Version="2.84.0" />
+    <PackageReference Include="Grpc.Net.Client.Web" Version="2.84.0" />
+    <PackageReference Include="Grpc.StatusProto" Version="2.84.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.12" />
+  </ItemGroup>
+</Project>

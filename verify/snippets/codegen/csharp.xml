@@ -1,0 +1,14 @@
+<!-- Server project: dotnet add package Grpc.AspNetCore -->
+<ItemGroup>
+  <Protobuf Include="Protos\shop.proto" GrpcServices="Server" />
+</ItemGroup>
+
+<!-- Client project:
+       dotnet add package Google.Protobuf
+       dotnet add package Grpc.Net.Client
+       dotnet add package Grpc.Tools -->
+<ItemGroup>
+  <Protobuf Include="..\Protos\shop.proto" GrpcServices="Client" />
+</ItemGroup>
+
+<!-- Grpc.Tools runs protoc on every build; there is no separate command to remember. -->

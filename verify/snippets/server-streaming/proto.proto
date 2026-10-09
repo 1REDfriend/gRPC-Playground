@@ -1,0 +1,6 @@
+service OrderService {
+  rpc WatchOrder(WatchOrderRequest) returns (stream OrderEvent);
+}
+
+message WatchOrderRequest { string order_id = 1; }
+message OrderEvent { OrderStatus status = 1; string note = 2; }

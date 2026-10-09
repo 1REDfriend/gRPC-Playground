@@ -1,0 +1,51 @@
+static_resources:
+  listeners:
+    - name: grpc_web
+      address:
+        socket_address: { address: 0.0.0.0, port_value: 8443 }
+      filter_chains:
+        - filters:
+            - name: envoy.filters.network.http_connection_manager
+              typed_config:
+                "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+                stat_prefix: grpc_web
+                route_config:
+                  virtual_hosts:
+                    - name: shop
+                      domains: ["*"]
+                      routes:
+                        - match: { prefix: "/shop.v1.OrderService/" }
+                          route: { cluster: order_service, timeout: 0s }
+                      typed_per_filter_config:
+                        envoy.filters.http.cors:
+                          "@type": type.googleapis.com/envoy.extensions.filters.http.cors.v3.CorsPolicy
+                          allow_origin_string_match: [{ exact: "https://shop.example.com" }]
+                          allow_methods: "POST, OPTIONS"
+                          allow_headers: "content-type, x-grpc-web, x-user-agent, grpc-timeout, authorization"
+                          expose_headers: "grpc-status, grpc-message"
+                http_filters:
+                  - name: envoy.filters.http.grpc_web
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_web.v3.GrpcWeb
+                  - name: envoy.filters.http.cors
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.filters.http.cors.v3.Cors
+                  - name: envoy.filters.http.router
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+  clusters:
+    - name: order_service
+      type: LOGICAL_DNS
+      lb_policy: ROUND_ROBIN
+      typed_extension_protocol_options:
+        envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
+          "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
+          explicit_http_config:
+            http2_protocol_options: {}
+      load_assignment:
+        cluster_name: order_service
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address: { address: orders, port_value: 50051 }
